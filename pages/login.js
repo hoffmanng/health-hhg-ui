@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
-import { checkLoggedIn } from '../lib/authHelper';
+import { checkLoggedIn } from '../lib/AuthHelper';
 
 export default function Login({ user }) {
     const router = useRouter();

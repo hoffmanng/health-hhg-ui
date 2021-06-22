@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { UserContext } from '../components/UserContext';
+import { UserContext } from '../components/contexts/UserContext';
 import { useState } from 'react';
 import { SWRConfig } from 'swr';
 import Script from 'next/script';

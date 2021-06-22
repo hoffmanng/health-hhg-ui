@@ -1,16 +1,20 @@
 import Layout from '../components/Layout';
-import MyTable from '../components/Table';
-import DatapointList from '../components/DatapointList';
-import { useContext, useEffect } from 'react';
-import { UserContext } from '../components/UserContext';
-import { checkLoggedIn } from '../lib/authHelper';
+import DatapointList from '../components/datapoints/DatapointList';
+import { useContext, useEffect, useState } from 'react';
+import { UserContext } from '../components/contexts/UserContext';
+import { checkLoggedIn } from '../lib/AuthHelper';
 import useSWR, { mutate } from 'swr';
 import { useRouter } from 'next/router';
 import NProgress from 'nprogress';
+import AddDatapointCard from '../components/datapoints/AddDatapointCard';
+import { getTypeDataFromQuery, getFormattedValueFromQuery } from '../lib/DatapointHelper';
+import { DatapointContext } from '../components/contexts/DatapointContext';
 
 export default function Datapoints({ user }) {
     const router = useRouter();
     const { setUser } = useContext(UserContext);
+    const [dpContext, setDpContext] = useState();
+    
     const baseUrl = 'http://localhost:3600/datapoints';
     const fullUrl = 
         !!router.query
@@ -35,10 +39,30 @@ export default function Datapoints({ user }) {
         NProgress.done();
     };
 
+    const addDatapoint = async () => {
+        NProgress.start();
+        const { dataType, unitOfMeasure } = getTypeDataFromQuery(router.query);
+        const value = getFormattedValueFromQuery(router.query);
+        const newEntry = { dataType, unitOfMeasure, value };
+        const newResources = [...data.resources, newEntry];
+        const newData = {...data, resources: newResources};
+        mutate(fullUrl, newData, false);
+        await fetch(`${baseUrl}/${id}`, {
+            method: 'POST',
+            credentials: 'include',
+            body: JSON.stringify(newEntry)
+        });
+        mutate(fullUrl);
+        NProgress.done();
+    };
+
     return (
-        <Layout title="Datapoints (SWR)">
-            <DatapointList />
-        </Layout>
+        <DatapointContext.Provider value={{ dpContext, setDpContext }}>
+            <Layout title="Datapoints (SWR)">
+                <AddDatapointCard addDatapoint={addDatapoint} />
+                <DatapointList data={data} deleteDatapoint={deleteDatapoint} />
+            </Layout>
+        </DatapointContext.Provider>
     );
 };
 

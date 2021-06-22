@@ -5,7 +5,7 @@ export default function MenuListItem({ url, title, subTitle }) {
         <Link href={url}>
             <a href="#" className="list-group-item d-flex justify-content-between align-items-center">
                 <div>
-                    <h5>{title}</h5>
+                    <div className="fs-5 fw-bold">{title}</div>
                     <small>{subTitle}</small>
                 </div>
                 <div>

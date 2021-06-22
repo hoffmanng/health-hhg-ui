@@ -1,9 +1,9 @@
 import { useContext, useEffect } from 'react';
-import { UserContext } from '../components/UserContext';
+import { UserContext } from '../components/contexts/UserContext';
 import Layout from '../components/Layout';
-import { checkLoggedIn } from '../lib/authHelper';
-import MenuList from '../components/MenuList';
-import UserCard from '../components/UserCard';
+import { checkLoggedIn } from '../lib/AuthHelper';
+import MenuList from '../components/index/MenuList';
+import UserCard from '../components/index/UserCard';
 
 export default function Home({ user }) {
     const { setUser } = useContext(UserContext);

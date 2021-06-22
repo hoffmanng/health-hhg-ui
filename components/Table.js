@@ -2,7 +2,6 @@ import Table from 'react-bootstrap/Table';
 import { FaTrashAlt } from 'react-icons/fa';
 
 export default function MyTable({ data, deleteDatapoint }) {
-    console.log(data);
     const tbody = (!!data && data.hasOwnProperty('resources') ? data.resources : []).map((row, i) => {
         const valueWithUom = row.dataType === 'blood_pressure'
             ? `${row.value.systolic}/${row.value.diastolic} ${row.unitOfMeasure}`

@@ -2,7 +2,7 @@ import Layout from '../components/Layout';
 import MyTable from '../components/Table';
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../components/UserContext';
-import { checkLoggedIn } from '../lib/authHelper';
+import { checkLoggedIn } from '../lib/AuthHelper';
 import { useRouter } from 'next/router';
 import NProgress from 'nprogress';
 
