@@ -1,9 +1,19 @@
 import { createContext } from 'react';
 
-export const DatapointContext = createContext({
+export const defaultDatapointContext = {
     weight: '',
     systolic: '',
     diastolic: '',
-    data: [],
-    dataType: ''
-});
+    datapoints: [],
+    deleteDatapoint: () => {},
+    addDatapoint: () => {},
+    isWeightValid: null,
+    isSystolicValid: null,
+    isDiastolicValid: null,
+    validateWeight: () => {},
+    weightError: '',
+    validateSystolic: () => {},
+    validateDiastolic: () => {}
+};
+
+export const DatapointContext = createContext(defaultDatapointContext);

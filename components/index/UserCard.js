@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { FiPower } from 'react-icons/fi';
 
 export default function UserCard() {
     const router = useRouter();
@@ -14,11 +15,11 @@ export default function UserCard() {
     };
     
     return (
-        <div className="card text-white bg-primary mb-3">
+        <div className="card text-white bg-primary bg-gradient mb-3">
             <div className="card-body d-flex justify-content-between">
                 <div>User: hhg</div>
                 <div>
-                    <a href="#" onClick={logout} className="link-light">Log out</a>
+                    <a href="#" onClick={logout} className="link-light">Log out <FiPower /></a>
                 </div>
             </div>
         </div>

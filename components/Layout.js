@@ -14,7 +14,7 @@ export default function Layout({ children, title }) {
                 <div className="row justify-content-center">
                     <div className="col-lg-8">
                         <Header title={`${siteName}`} />
-                        <Breadcrumb subPage={title} />
+                        <Breadcrumb />
                         {children}
                     </div>
                 </div>

@@ -1,10 +1,33 @@
-import DatapointListItem from './DatapointListItem';
+import { useContext } from 'react';
+import { DatapointContext } from '../contexts/DatapointContext';
+import { dateFormatter } from '../../lib/DateHelper';
+import { FaTimes } from 'react-icons/fa';
+import { constructValue } from '../../lib/DatapointHelper';
 
-export default function DatapointList({ data, deleteDatapoint }) {
+export default function DatapointList() {
+    const { dpContext } = useContext(DatapointContext);
+    const deleteDatapoint = dpContext?.deleteDatapoint;
+
     return (
-        <div className="list-group">
-            {(!!data && data.hasOwnProperty('resources') ? data.resources : []).map((row, i) => (
-                <DatapointListItem key={`datapointItem-${i}`} data={row} deleteDatapoint={deleteDatapoint} />
+        <div className="list-group mb-3">
+            {(dpContext?.datapoints?.resources || []).map((row, i) => (
+                <div key={`datapointItem-${i}`}
+                    className="list-group-item d-flex justify-content-between align-items-center">
+                    <div className="me-2">
+                        <span className="fs-5 fw-bold">
+                            {constructValue(row.dataType, row.value)}
+                        </span>
+                    </div>
+                    <div className="flex-grow-1">
+                        <small>{row.unitOfMeasure}</small>
+                    </div>
+                    <div className="me-5">
+                        {dateFormatter(row.createdAt).date} <small>{dateFormatter(row.createdAt).time}</small>
+                    </div>
+                    <div className="me-2">
+                        <FaTimes style={{ cursor: 'pointer' }} onClick={() => deleteDatapoint(row._id)} />
+                    </div>
+                </div>
             ))}
         </div>
     );

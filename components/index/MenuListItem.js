@@ -1,15 +1,15 @@
 import Link from 'next/link';
+import { FaAngleDoubleRight } from 'react-icons/fa';
 
-export default function MenuListItem({ url, title, subTitle }) {
+export default function MenuListItem({ url, title }) {
     return (
         <Link href={url}>
             <a href="#" className="list-group-item d-flex justify-content-between align-items-center">
-                <div>
+                <div className="py-1">
                     <div className="fs-5 fw-bold">{title}</div>
-                    <small>{subTitle}</small>
                 </div>
                 <div>
-                    &gt;&gt;
+                    <FaAngleDoubleRight />
                 </div>
             </a>
         </Link>
