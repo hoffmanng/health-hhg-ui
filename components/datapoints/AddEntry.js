@@ -6,15 +6,7 @@ import { DatapointContext } from '../contexts/DatapointContext';
 export default function AddEntry() {
     const router = useRouter();
     const type = getTypeFromQuery(router.query);
-    const { dpContext, setDpContext } = useContext(DatapointContext);
-    const [systolic, setSystolic] = useState();
-    const [diastolic, setDiastolic] = useState();
-    const [weight, setWeight] = useState();
     
-    useEffect(() => {
-        setDpContext({...dpContext, weight, systolic, diastolic});
-    }, [weight, systolic, diastolic]);
-
     const AddWeightInputGroup = () => {
         return (
             <div className="input-group has-validation">
@@ -25,12 +17,12 @@ export default function AddEntry() {
                     placeholder=""
                     aria-label="Weight"
                     aria-describedby="weight-input validationWeightFeedback"
-                    onChange={(e) => {setWeight(e.target.value)}} />
+                    onChange={null} />
                 <button
                     className="btn btn-outline-primary px-5"
                     type="button"
                     id="weight-add-button"
-                    onClick={addDatapoint} >
+                    onClick={null} >
                         Add
                 </button>
                 <div id="validationWeightFeedback" className="invalid-feedback">
@@ -41,10 +33,6 @@ export default function AddEntry() {
     };
 
     const AddBloodPressureInputGroup = () => {
-        console.log(systolic)
-        useEffect(() => {
-            // setDpContext({...dpContext, systolic, diastolic});
-        }, []);
         return (
             <div className="input-group">
                 <span className="input-group-text" id="weight-input">Systolic</span>
@@ -54,7 +42,7 @@ export default function AddEntry() {
                     placeholder=""
                     aria-label="Weight"
                     aria-describedby="weight-input"
-                    onChange={(e) => {setSystolic(e.target.value)}} />
+                    onChange={null} />
                 <span className="input-group-text" id="weight-input">Diastolic</span>
                 <input
                     type="number"
@@ -62,12 +50,12 @@ export default function AddEntry() {
                     placeholder=""
                     aria-label="Weight"
                     aria-describedby="weight-input"
-                    onChange={(e) => {setDiastolic(e.target.value)}} />
+                    onChange={null} />
                 <button
                     className="btn btn-outline-primary px-5"
                     type="button"
                     id="weight-add-button"
-                    onClick={() => dpContext.addDatapoint()} >
+                    onClick={null} >
                     Add
                 </button>
             </div>

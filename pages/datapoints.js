@@ -1,6 +1,6 @@
 import Layout from '../components/Layout';
 import DatapointList from '../components/datapoints/DatapointList';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useReducer } from 'react';
 import { UserContext } from '../components/contexts/UserContext';
 import { checkLoggedIn } from '../lib/AuthHelper';
 import useSWR, { mutate } from 'swr';
@@ -10,10 +10,38 @@ import AddDatapointCard from '../components/datapoints/AddDatapointCard';
 import { getTypeDataFromQuery, DATA_TYPE } from '../lib/DatapointHelper';
 import { DatapointContext } from '../components/contexts/DatapointContext';
 
+const appReducer = (state, action) => {
+    switch (action.type) {
+        case 'deleteDatapoint':
+            return {
+                ...state,
+                datapoints: state.datapoints.filter(item => item._id !== id)
+            };
+        case 'dataLoaded':
+            return {
+                ...state,
+                datapoints: action.value
+            };
+        default:
+            break;
+    }
+};
+
+const initialState = {
+    systolic: null,
+    diastolic: null,
+    weight: null,
+    datapoints: [],
+    isWeightValid: false,
+    isSystolicValid: false,
+    isDiastolicValid: false,
+    error: ''
+};
+
 export default function Datapoints({ user }) {
     const router = useRouter();
+    const [state, dispatch] = useReducer(appReducer, initialState);
     const { setUser } = useContext(UserContext);
-    const { dpContext, setDpContext } = useContext(DatapointContext);
     const currentPath = getTypeDataFromQuery(router.query);
     
     const baseUrl = 'http://localhost:3600/datapoints';
@@ -22,13 +50,16 @@ export default function Datapoints({ user }) {
         && router.query.hasOwnProperty('dataType')
         ? `${baseUrl}?dataType=${router.query.dataType}&limit=1000`
         : `${baseUrl}?limit=1000`;
-    const { data } = useSWR(fullUrl);
 
     useEffect(() => {
         setUser(user);
-        setDpContext({...dpContext, datapoints: data, deleteDatapoint, addDatapoint});
-    }, [user, data, dpContext?.weight, dpContext?.systolic, dpContext?.diastolic]);
-
+        (async () => {
+            const data = await fetch(fullUrl, { credentials: 'include' });
+            const json = await data.json();
+            dispatch({ type: 'dataLoaded', value: json.resources });
+        })();
+    }, []);
+    
     const deleteDatapoint = async (id) => {
         NProgress.start();
         const newData = {...data, resources: data.resources.filter(item => item._id !== id)};
@@ -67,10 +98,12 @@ export default function Datapoints({ user }) {
     };
 
     return (
-        <Layout title={currentPath.text}>
-            {currentPath.dataType !== DATA_TYPE.ALL &&<AddDatapointCard />}
-            <DatapointList />
-        </Layout>
+        <DatapointContext.Provider value={{ state, dispatch }}>
+            <Layout title={currentPath.text}>
+                {currentPath.dataType !== DATA_TYPE.ALL &&<AddDatapointCard />}
+                <DatapointList />
+            </Layout>
+        </DatapointContext.Provider>
     );
 };
 

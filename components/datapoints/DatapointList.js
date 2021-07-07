@@ -5,12 +5,9 @@ import { FaTimes } from 'react-icons/fa';
 import { constructValue } from '../../lib/DatapointHelper';
 
 export default function DatapointList() {
-    const { dpContext } = useContext(DatapointContext);
-    const deleteDatapoint = dpContext?.deleteDatapoint;
-
     return (
         <div className="list-group mb-3">
-            {(dpContext?.datapoints?.resources || []).map((row, i) => (
+            {[].map((row, i) => (
                 <div key={`datapointItem-${i}`}
                     className="list-group-item d-flex justify-content-between align-items-center">
                     <div className="me-2">
