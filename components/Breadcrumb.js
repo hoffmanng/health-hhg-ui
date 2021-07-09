@@ -1,17 +1,18 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useContext } from 'react';
-import { UserContext } from '../components/contexts/UserContext';
 import { getPathDescription } from '../lib/DatapointHelper';
+import { useStateStore } from './stores/StateContext';
+import { observer } from 'mobx-react';
 
-export default function Breadcrumb() {
+export default observer(function Breadcrumb() {
     const router = useRouter();
     const pathDescription = getPathDescription(router);
-    const { user } = useContext(UserContext);
-    if (!user) return null;
+    const stateStore = useStateStore();
+    
+    // if (!stateStore.user) return null;
 
     const subPageDom = !!pathDescription && (
-        <li className="breadcrumb-item active" aria-current="page">{pathDescription}</li>
+        <li className="breadcrumb-item active" aria-current="page">{pathDescription} ({ stateStore.datapointCount })</li>
     );
     return (
         <nav aria-label="breadcrumb">
@@ -25,4 +26,4 @@ export default function Breadcrumb() {
             </ol>
         </nav>
     );
-};
+});

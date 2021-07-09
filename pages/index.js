@@ -1,14 +1,15 @@
-import { useContext, useEffect } from 'react';
-import { UserContext } from '../components/contexts/UserContext';
+import { useEffect } from 'react';
 import Layout from '../components/Layout';
 import { checkLoggedIn } from '../lib/AuthHelper';
 import MenuList from '../components/index/MenuList';
 import UserCard from '../components/index/UserCard';
+import { useStateStore } from '../components/stores/StateContext';
 
 export default function Home({ user }) {
-    const { setUser } = useContext(UserContext);
+    const stateStore = useStateStore();
+
     useEffect(() => {
-        setUser(user);
+        stateStore.setUser(user);
     });
     
     return (
