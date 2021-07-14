@@ -6,7 +6,7 @@ import useSWR, { mutate } from 'swr';
 import { useRouter } from 'next/router';
 import AddDatapointCard from '../components/datapoints/AddDatapointCard';
 import { getTypeDataFromQuery } from '../lib/DatapointHelper';
-import { useStateStore } from '../components/stores/StateContext'
+import { useStateStore } from '../components/stores/StateContext';
 import { observer } from 'mobx-react';
 
 export default observer(function Datapoints({ user }) {

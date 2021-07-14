@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { SWRConfig } from 'swr';
 import Script from 'next/script';
 import Router from 'next/router';
